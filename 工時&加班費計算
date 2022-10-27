@@ -1,0 +1,28 @@
+work_study <- function(hourly_rate=168,Break_time=0.5){
+  library(lubridate)  
+  #用 lubridate 套件的 ymd_hms 函數將時間資料從 character 
+  #快速轉成 POSIXct 形式
+  start_to_work <- ymd_hms("2022-09-22 18:30:00",tz = "Asia/Taipei")
+  get_off_work <- Sys.time()   #打卡下班(用當前執行的時間)
+  working_hours <- interval(start = start_to_work,end=get_off_work) / duration(num = 1,units = 'hours')
+  working_hours <- working_hours - Break_time
+if (working_hours >10){    #如果超過10小時，8小時先用基本工資算，超過兩小時內的*1.34，其餘多的小時*1.67倍
+  pay <- (working_hours - 10) * (hourly_rate * 1.67) + 2*(hourly_rate * 1.34) + 8*hourly_rate
+}
+else if(working_hours < 10 && working_hours > 8){
+  pay <- (working_hours - 8) * hourly_rate* 1.34 + 8 * hourly_rate
+}
+else{
+  pay <- working_hours * hourly_rate
+}
+return(round(pay,0))     #四捨五入取整數
+}
+
+------------------------------------------------------------------------
+#打包
+
+rm(list = ls())
+setwd("‪C:/Users/linnn/Desktop/大三")
+dir()
+source('work_study_0922.R')
+work_study(170,1)     #輸入基本工資和休息時間
