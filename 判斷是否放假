@@ -1,0 +1,32 @@
+Holiday_or_not <- function(){
+  setwd("C:/Users/linnn/Desktop/大三")   #設定資料所存放檔案的位置
+  getwd()
+  cal_2022 = read.csv('111.csv')   #就可以直接用檔名讀取資料
+  cal_2023 = read.csv('112.csv')
+  colnames(cal_2022) = c("Date","Week","Holiday","Note")  #將原先欄位名稱取代
+  colnames(cal_2023) = c("Date","Week","Holiday","Note")
+  cal_2022$Date <- as.character(cal_2022$Date)    #讀到的是連在一起的數值日期
+  a <- Sys.Date()   #載入系統時間
+  a <- as.character(a)  #轉成字元形式
+  a <- sub("-","",a)
+  a <- sub("-","",a)
+  
+  print(cal_2022$Date[which(cal_2022$Date == a)])  #找到兩者相同的那筆資料，去進行比較
+  cal_2022$Holiday[which(cal_2022$Date==a)]
+  }
+
+Holiday_or_not()
+cal_2022
+colnames(cal_2022)
+
+
+-----------------------------------------------------
+
+#打包
+
+rm(list = ls())    #清除變數
+setwd("C:/Users/linnn/Desktop/大三")    #設定檔案所存在位置的資料夾
+dir()              #看一下該資料夾裡面的檔案
+source("holiday_or_not.R", encoding="utf-8")   #將該程式寫入，裡面有先打包一個函數
+
+Holiday_or_not() #可以直接拿出該函數使用
