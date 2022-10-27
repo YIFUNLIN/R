@@ -1,0 +1,28 @@
+memory.size()  #查詢Ｒ目前所使用的記憶體（ＭＢ）
+memory.limit() #查詢R最大可用的記憶體(MB)
+ls() #目前有哪變數
+rm() #刪除變數
+rm(list  = ls())   #刪除所有變數
+memory.size()   #釋放R所使用的記憶體空間
+
+showpercent <- function(x)
+{
+  x.digits <- round(x*100,digits=2)  #變數*100之後取小數點兩位
+  x.percent <- paste(x.digits,sep='','%') #貼上%這個字串
+  return(x.percent)
+}
+
+showpercent(0.7845)
+
+
+-----------------------------------------------------------------------------
+
+#將寫好的函數打包起來，方便日後做使用
+#須放置同一個資料夾(相同路徑)
+
+rm(list = ls())    #清除變數
+setwd("‪C:/Users/linnn/Desktop/大三")    #設定檔案所存在位置的資料夾
+dir()              #看一下該資料夾裡面的檔案
+source('0915.R')   #將該程式寫入，裡面有先打包一個函數
+
+showpercent(0.377) #可以直接拿出該函數使用
