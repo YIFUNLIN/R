@@ -1,0 +1,8 @@
+FamilyMartLattefee <- function(cup,unitprice=45)
+{
+  Lattefee <- cup*unitprice    #計算咖啡價格
+  Lattefee <- ifelse(cup>10,0.77,1)*unitprice*cup #如果超過10杯打77折 
+  round(Lattefee)  #四捨五入取整數
+}
+
+FamilyMartLattefee(11)
