@@ -1,0 +1,39 @@
+setwd('C:/Users/linnn/Desktop/大三/')   #設定目前檔案所在的資料夾路徑位置
+getwd()                 #檢查目前路徑是否正確
+df = read.csv('11107.csv',fileEncoding = "UCS-2LE")   #讀取資料集
+View(df)           #檢視所有資料
+df[1,]             #檢視第一列資料
+df = df[-1,]       #將第一列資料刪除
+
+colnames(df) = c("Group_level",'level','Monthly_amount','salary')  #改變原本欄位名稱
+str(df)     #查詢資料格式
+df$Monthly_amount <- as.numeric(df$Monthly_amount)  #雖然原先是int型態，但R好像還是要再轉換成num
+str(df)
+df$salary <- as.character(df$salary)  #將salary這欄轉成字元形式，因為有些符號必須捨棄
+str(df)
+
+#install.packages('stringr')
+
+library(stringr)
+View(df)
+a <- str_split_fixed(df$salary,"-",2) #切割，str_split_fixed(string, pattern, n) ##返回矩阵格式
+a                                          # n :分割的數量
+colnames(a)=c("low","high")           #賦予欄位名稱
+a
+df<-cbind(df,a)                     #跟原先的資料集合併
+View(df)                           #查看完整資料(另開視窗))
+str(df)                            #查看資料型態
+df$low <- as.numeric(df$low)       
+df$high <- as.numeric(df$high)
+str(df)
+
+test = 39900
+class(test)     #查看型態
+which(test < df$high)         #找出符合條件資料的索引值
+which(test > df$low) 
+head(which(test < df$high),1)    #符合條件的最後一筆 (由上到下算)
+tail(which(test > df$low),1)    #符合條件的第一筆(由下到上算)
+
+df$Monthly_amount[tail(which(test>df$low),1)]     #結果相同
+  
+df$Monthly_amount[head(which(test<df$high),1)]     #結果相同
