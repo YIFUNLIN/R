@@ -37,3 +37,45 @@ tail(which(test > df$low),1)    #符合條件的第一筆(由下到上算)
 df$Monthly_amount[tail(which(test>df$low),1)]     #結果相同
   
 df$Monthly_amount[head(which(test<df$high),1)]     #結果相同
+
+
+
+
+----------------------------------------------------------------------------------------------
+#寫成函數
+
+health_interval <-function(salary){
+  setwd('C:/Users/linnn/Desktop/大三/')   #設定目前檔案所在的資料夾路徑位置
+  df = read.csv('11107.csv',fileEncoding = "UCS-2LE")   #讀取資料集
+  df[1,]             #檢視第一列資料
+  df = df[-1,]       #將第一列資料刪除
+  colnames(df) = c("Group_level",'level','Monthly_amount','salary')  
+  df$Monthly_amount <- as.numeric(df$Monthly_amount)  
+  df$salary <- as.character(df$salary)  
+  library(stringr)
+  a <- str_split_fixed(df$salary,"-",2) 
+  colnames(a)=c("low","high")           #賦予欄位名稱
+  df<-cbind(df,a)                     #跟原先的資料集合併
+  df$low <- as.numeric(df$low)       
+  df$high <- as.numeric(df$high)
+  pay_month <- df$Monthly_amount[tail(which(salary>df$low),1)]     #結果相同
+  print(paste('健保級距為: ',round(pay_month,0),'TWD'))
+}
+
+insurance <- function(insured_salary,people){
+  total <- insured_salary * 0.0517 * people
+  print(paste('Health insurance premium ',round(total,0),'TWD'))
+}
+
+
+-------------------------------------------------------------------------------------------
+#打包
+
+rm(list = ls())    #清除變數
+setwd("C:/Users/linnn/Desktop/大三")    #設定檔案所存在位置的資料夾
+dir()              #看一下該資料夾裡面的檔案
+source("health_insurance.R", encoding="utf-8")   #將該程式寫入，裡面有先打包一個函數
+
+
+health_interval(43997)
+insurance(40100,7)
