@@ -1,0 +1,34 @@
+#勞保級距計算
+labor_interval <- function(fee){
+  setwd('C:/Users/linnn/Desktop/大三/')
+  df = read.csv("labor.csv")
+  colnames(df) = c('ID','level','interval','pay')
+  library(stringr)
+  a <- str_split_fixed(df$interval,"-",2)
+  
+  colnames(a) = c("low","high")
+  df <- cbind(df,a)
+  df$low <- as.numeric(df$low)
+  df$high <- as.numeric(df$high)
+  
+  pay_month <- df$pay[head(which(fee<df$high),1)]
+  print(paste('勞保級距為: ',round(pay_month,0),'TWD'))
+}
+
+
+#勞保費用
+labor_insurance <- function(money,people){
+  total <- money * 0.115 * 0.2 * people
+  print(paste('Labor insurance premium ',round(total,0),'TWD'))
+}
+
+
+--------------------------------------------------------------------------------------------
+#打包
+rm(list = ls())    #清除變數
+setwd("C:/Users/linnn/Desktop/大三")    #設定檔案所存在位置的資料夾
+dir()              #看一下該資料夾裡面的檔案
+source("labor.R", encoding="utf-8")   #將該程式寫入，裡面有先打包一個函數
+
+labor_interval(40000) #可以直接拿出該函數使用
+labor_insurance(40000,1)
