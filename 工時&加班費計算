@@ -1,8 +1,9 @@
+#平日正常或加班程式
 work_study <- function(hourly_rate=168,Break_time=0.5){
   library(lubridate)  
   #用 lubridate 套件的 ymd_hms 函數將時間資料從 character 
   #快速轉成 POSIXct 形式
-  start_to_work <- ymd_hms("2022-09-22 18:30:00",tz = "Asia/Taipei")
+  start_to_work <- ymd_hms("2022-11-03 08:30:00",tz = "Asia/Taipei")
   get_off_work <- Sys.time()   #打卡下班(用當前執行的時間)
   working_hours <- interval(start = start_to_work,end=get_off_work) / duration(num = 1,units = 'hours')
   working_hours <- working_hours - Break_time
@@ -18,11 +19,41 @@ else{
 return(round(pay,0))     #四捨五入取整數
 }
 
-------------------------------------------------------------------------
-#打包
+work_study()
+
+#建立假日工讀函數
+holiday_work_study <- function(hourly_rate=168,break_time){
+  library(lubridate)
+  clock_in <- ymd_hms("2022-10-30 08:30:00",tz = "Asia/Taipei")
+  start_to_work <-  clock_in
+  get_off_work <- Sys.time()
+  working_hours <- interval(start = start_to_work,end = get_off_work) / duration(num = 1,units = 'hours')
+  working_hours <- working_hours - break_time
+  pay <- working_hours * hourly_rate * 2
+  print(weekdays(clock_in))
+  print(paste('clock_in',clock_in))
+  print(paste('get_off_work',get_off_work))
+  print(paste('working_hours',round(working_hours,2),'hours'))
+  print(paste('working_pay',round(pay,2),'NTD'))
+}
+holiday_work_study(168,2)
+
+----------------------
+#將函數打包
 
 rm(list = ls())
 setwd("‪C:/Users/linnn/Desktop/大三")
 dir()
 source('work_study_0922.R')
-work_study(170,1)     #輸入基本工資和休息時間
+work_study()     #輸入基本工資和休息時間
+holiday_work_study(200,3)
+
+
+
+
+
+
+
+
+
+
