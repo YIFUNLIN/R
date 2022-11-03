@@ -63,9 +63,13 @@ health_interval <-function(salary){
 }
 
 insurance <- function(insured_salary,people){
-  total <- insured_salary * 0.0517 * people
+  total <- insured_salary * 0.0517 * 0.3 * people
   print(paste('Health insurance premium ',round(total,0),'TWD'))
 }
+
+
+health_interval(43997)
+insurance(180000,7)
 
 
 -------------------------------------------------------------------------------------------
